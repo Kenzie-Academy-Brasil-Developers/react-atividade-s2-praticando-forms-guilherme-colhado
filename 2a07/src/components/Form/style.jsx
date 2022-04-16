@@ -30,15 +30,17 @@ export const Formulario = styled.form`
         font-size: 25px;
         margin: 0;
         background-color: transparent;
-        padding: 5px;
+        padding: 5px 20px;
         margin-top: 15px;
         color: aliceblue;
+        border-radius: 10px;
     }
     > input{
         width: 100%;
     }
     textarea:focus, input:focus{
         outline: none;
+        border-color: #5f95ff;
     }
     label{
         cursor: text;
@@ -51,7 +53,7 @@ export const Formulario = styled.form`
     }
     label{
         top: -40px;
-        left: 7px;
+        left: 15px;
         position: relative;
         font-size: 25px;
         margin: 0;
