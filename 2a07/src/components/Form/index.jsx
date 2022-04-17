@@ -2,12 +2,21 @@ import { useForm } from "react-hook-form"
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useHistory } from "react-router-dom"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './style.jsx'
 import { Formulario } from "./style.jsx"
 
-export default function Form(){
+export default function Form({users, setUsers}){
     const history = useHistory()
+    
+    const [lengthAtual, setLengthAtual] = useState(users.length)
+
+    useEffect(()=>{
+        if(users.length>lengthAtual){
+            history.push('/pessoa', {data: users[users.length-1]})
+        }
+    }, [users])
+    
     const formSchema = yup.object().shape({
         nomeUsuario: yup.string().required("Nome de usuario obrigatorio"),
         nomeCompleto: yup.string().required('Nome de completo obrigatorio'),
@@ -15,16 +24,41 @@ export default function Form(){
         emailConfirm: yup.string().oneOf([yup.ref('email'), null], 'Os emails devem estar iguais'),
         senha: yup.string().required('Senha obrigatoria').matches('^(?=.*[A-Z])(?=.*[!#@$%&])(?=.*[0-9])(?=.*[a-z]).{8,}$', 'Senha invalida, a sua senha deve conter 8 caracteres   @Aa1'),
         senhaConfirm: yup.string().oneOf([yup.ref('senha'),null], 'As senhas devem ser iguais')
-      })
+    })
+    
     const { register, handleSubmit, formState: {errors} } = useForm({resolver: yupResolver(formSchema)})
-    const onSubmitFunction = (data) => history.push('/pessoa', {data})
+   
+    
     const [nomeUsuario, setNomeUsuario] = useState('')
     const [nomeCompleto, setNomeCompleto] = useState('')
     const [email, setEmail] = useState('')
     const [emailConfirm, setEmailConfirm] = useState('')
     const [senha, setSenha] = useState('')
     const [senhaConfirm, setSenhaConfirm] = useState('')
+    
+    const verifica = (array, email, nomeUsuario) => {
+        const vNome = array.map(indice => indice.nomeUsuario).includes(nomeUsuario)
+        const vEmail = array.map(indice => indice.email).includes(email)
+        console.log(vEmail)
+        console.log(vNome)
+        return (!vNome && !vEmail)
+    }
+
+    const onSubmitFunction = (data) => {
+        if(!users || verifica(users, data.email.toLowerCase(), data.nomeUsuario.toLowerCase())){
+            setUsers(previusValue => [...previusValue, {
+                nomeUsuario: data.nomeUsuario,
+                nomeCompleto: data.nomeCompleto,
+                email: data.email,
+                senha: data.senha
+            }])
+        }else{
+            window.alert('Nome de usuario ou email ja existe')
+        }
+    }
+
     return <Formulario onSubmit={handleSubmit(onSubmitFunction)}>
+        <h3>Cadastro</h3>
         <input type="text" name="nomeUsuario" id="nomeUsuario" {...register('nomeUsuario')} onChange={(e)=>setNomeUsuario(e.target.value)}/>
         <label htmlFor="nomeUsuario" className={nomeUsuario?'ativo':undefined}>Nome de usuario*</label>
         <div className="erro">{errors.nomeUsuario?.message}</div>
@@ -50,5 +84,6 @@ export default function Form(){
             </div>
         </section>
         <input type="submit" value="Enviar" id="enviar" />
+        <button onClick={()=>history.push('/login')}>Ja possuo uma conta!!</button>
     </Formulario>
 }

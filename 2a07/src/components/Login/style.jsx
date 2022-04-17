@@ -1,54 +1,30 @@
 import styled from 'styled-components'
 
-export const Formulario = styled.form`
+export const LoginContainer = styled.form`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     width: 70%;
+    text-align: left;
     *{
         box-sizing: border-box;
-    }
+    }    
     h3{
-        margin: 0;
         text-align: center;
-        width: 100%;
-    }
-    section{
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        width: 100% ;
-    }
-
-    section div{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 49%;
-    }
-
-    section div input{
-            width: 100%;
     }
 
     input{
+        width: 100%;
         font-size: 25px;
-        margin: -20px 0;
+        margin: 0;
         background-color: transparent;
         padding: 5px 20px;
         margin-top: 15px;
         color: aliceblue;
         border-radius: 10px;
     }
-    > input{
-        width: 100%;
-    }
     textarea:focus, input:focus{
         outline: none;
         border-color: #5f95ff;
-    }
-    label{
-        cursor: text;
     }
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
@@ -57,7 +33,8 @@ export const Formulario = styled.form`
         -webkit-color: aliceblue;
     }
     label{
-        top: -20px;
+        cursor: text;
+        top: -40px;
         left: 15px;
         position: relative;
         font-size: 25px;
@@ -66,31 +43,13 @@ export const Formulario = styled.form`
         transition: all ease-in .25s;
         z-index: 1000;
         background-color: #282c34;
+        width: max-content;
     }
     .ativo, input:focus + label{
         color: #5f95ff;
         font-size: 18px;
-        top: -35px;
+        top: -55px;
     }
-
-    .erro{
-        position: relative;
-        top: -30px;
-        transition: all ease-in .25s;
-        width: 100%;
-        text-align: left;
-    }
-
-    input:focus + label + .erro, .ativo + .erro{
-        top: -20px;
-    }
-
-    #enviar{
-        background-color: #324191;
-        border: none;
-    }
-
-    
     button{
         margin-top: 30px;
         background-color: transparent;
@@ -103,17 +62,6 @@ export const Formulario = styled.form`
         &:hover{
             text-decoration: underline;
             color: #5f95ff;
-        }
-    }
-
-    @media screen and (max-width: 726px) {
-        width: 98%;
-
-        section{
-            flex-direction: column;
-        }
-        section div{
-            width: 100%;
         }
     }
 `
