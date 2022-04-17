@@ -75,14 +75,14 @@ export const Formulario = styled.form`
 
     .erro{
         position: relative;
-        top: -30px;
+        top: -10px;
         transition: all ease-in .25s;
         width: 100%;
         text-align: left;
     }
 
     input:focus + label + .erro, .ativo + .erro{
-        top: -20px;
+        top: -5px;
     }
 
     #enviar{

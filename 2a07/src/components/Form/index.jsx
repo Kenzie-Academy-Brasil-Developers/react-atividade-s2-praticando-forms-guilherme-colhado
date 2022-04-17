@@ -20,10 +20,10 @@ export default function Form({users, setUsers}){
     const formSchema = yup.object().shape({
         nomeUsuario: yup.string().required("Nome de usuario obrigatorio"),
         nomeCompleto: yup.string().required('Nome de completo obrigatorio'),
-        email: yup.string().required("Email Obrigatorio").email("Email Invalido"),
-        emailConfirm: yup.string().oneOf([yup.ref('email'), null], 'Os emails devem estar iguais'),
-        senha: yup.string().required('Senha obrigatoria').matches('^(?=.*[A-Z])(?=.*[!#@$%&])(?=.*[0-9])(?=.*[a-z]).{8,}$', 'Senha invalida, a sua senha deve conter 8 caracteres   @Aa1'),
-        senhaConfirm: yup.string().oneOf([yup.ref('senha'),null], 'As senhas devem ser iguais')
+        email: yup.string().required("Email obrigatorio").email("Email Invalido"),
+        emailConfirm: yup.string().required('Email de confirmação obrigatorio').oneOf([yup.ref('email'), null], 'Os emails devem estar iguais'),
+        senha: yup.string().required('Senha obrigatoria').matches('^(?=.*[A-Z])(?=.*[!#@$%&])(?=.*[0-9])(?=.*[a-z]).{8,}$', 'Senha invalida, a sua senha deve conter: 8 caracteres, 1 letra Maiuscula, 1 letra minuscula, 1 numero e um caractere especial'),
+        senhaConfirm: yup.string().required('Senha de confirmação obrigatorio').oneOf([yup.ref('senha'),null], 'As senhas devem ser iguais')
     })
     
     const { register, handleSubmit, formState: {errors} } = useForm({resolver: yupResolver(formSchema)})
@@ -45,7 +45,7 @@ export default function Form({users, setUsers}){
     }
 
     const onSubmitFunction = (data) => {
-        if(!users || verifica(users, data.email.toLowerCase(), data.nomeUsuario.toLowerCase())){
+        if(!users || verifica(users, data.email, data.nomeUsuario)){
             setUsers(previusValue => [...previusValue, {
                 nomeUsuario: data.nomeUsuario,
                 nomeCompleto: data.nomeCompleto,
@@ -65,7 +65,7 @@ export default function Form({users, setUsers}){
         <input type="text" name="nomeCompleto" id="nomeCompleto" {...register('nomeCompleto')} onChange={(e)=>setNomeCompleto(e.target.value)}/>
         <label htmlFor="nomeCompleto" className={nomeCompleto?'ativo':undefined}>Nome completo*</label>
         <div className="erro">{errors.nomeCompleto?.message}</div>
-        <input type="text" name="email" id="email" {...register('email')} onChange={(e)=>setEmail(e.target.value)}/>
+        <input type="text" name="email" id="email" {...register("email")} onChange={(e)=>setEmail(e.target.value)}/>
         <label htmlFor="email" className={email?'ativo':undefined}>Email*</label>
         <div className="erro">{errors.email?.message}</div>
         <input type="text" name="emailConfirm" id="emailConfirm" {...register('emailConfirm')} onChange={(e)=>setEmailConfirm(e.target.value)}/>
