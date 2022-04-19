@@ -23,7 +23,8 @@ export default function Form({users, setUsers}){
         email: yup.string().required("Email obrigatorio").email("Email Invalido"),
         emailConfirm: yup.string().required('Email de confirmação obrigatorio').oneOf([yup.ref('email'), null], 'Os emails devem estar iguais'),
         senha: yup.string().required('Senha obrigatoria').matches('^(?=.*[A-Z])(?=.*[!#@$%&])(?=.*[0-9])(?=.*[a-z]).{8,}$', 'Senha invalida, a sua senha deve conter: 8 caracteres, 1 letra Maiuscula, 1 letra minuscula, 1 numero e um caractere especial'),
-        senhaConfirm: yup.string().required('Senha de confirmação obrigatorio').oneOf([yup.ref('senha'),null], 'As senhas devem ser iguais')
+        senhaConfirm: yup.string().required('Senha de confirmação obrigatorio').oneOf([yup.ref('senha'),null], 'As senhas devem ser iguais'),
+        idade: yup.number().required('Idade obrigatorio')
     })
     
     const { register, handleSubmit, formState: {errors} } = useForm({resolver: yupResolver(formSchema)})
@@ -35,7 +36,8 @@ export default function Form({users, setUsers}){
     const [emailConfirm, setEmailConfirm] = useState('')
     const [senha, setSenha] = useState('')
     const [senhaConfirm, setSenhaConfirm] = useState('')
-    
+    const [idade, setIdade] = ('')
+
     const verifica = (array, email, nomeUsuario) => {
         const vNome = array.map(indice => indice.nomeUsuario).includes(nomeUsuario)
         const vEmail = array.map(indice => indice.email).includes(email)
@@ -71,6 +73,9 @@ export default function Form({users, setUsers}){
         <input type="text" name="emailConfirm" id="emailConfirm" {...register('emailConfirm')} onChange={(e)=>setEmailConfirm(e.target.value)}/>
         <label htmlFor="emailConfirm" className={emailConfirm?'ativo':undefined}>Confirme seu email*</label>
         <div className="erro">{errors.emailConfirm?.message}</div>
+        <input type="number" name="idade" id="idade" {...register('idade')} onChange ={e=>setIdade(e.target.value)}/>
+        <label htmlFor="idade" className={idade?'ativo':undefined} >Idade</label>
+        <div className="erro">{errors.idade?.message}</div>
         <section>
             <div>
                 <input type="password" name="senha" id="senha" {...register('senha')} onChange={(e)=>setSenha(e.target.value)}/>
