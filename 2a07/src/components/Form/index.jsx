@@ -52,7 +52,8 @@ export default function Form({users, setUsers}){
                 nomeUsuario: data.nomeUsuario,
                 nomeCompleto: data.nomeCompleto,
                 email: data.email,
-                senha: data.senha
+                senha: data.senha,
+                idade: data.idade
             }])
         }else{
             window.alert('Nome de usuario ou email ja existe')
